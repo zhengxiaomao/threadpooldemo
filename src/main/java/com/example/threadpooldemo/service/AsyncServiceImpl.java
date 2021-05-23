@@ -31,18 +31,34 @@ public class AsyncServiceImpl implements AsyncService {
     public void executeAsync() {
 
 
-        logger.info("线程"+Thread.currentThread().getName()+"尝试加锁。。。");
-        Boolean lock=redisUtil.lock("s",5);
+//        logger.info("线程"+Thread.currentThread().getName()+"尝试加锁。。。");
+        Boolean lock=redisUtil.lock("s",10000);
         if(lock){
-            logger.info(Thread.currentThread().getName()+"加锁成功，修改redis的i...");
+            logger.info(Thread.currentThread().getName()+"抢票成功");
             int i=(int)redisUtil.get("i");
             int i2 = i-1;
-            redisUtil.set("i",i2);
-            logger.info("修改成功");
+            if(i2<=0){
+                logger.info("票已售完");
+            }else{
+                redisUtil.set("i",i2);
+                logger.info("剩余票数:"+redisUtil.get("i"));
+                redisUtil.del("s");
+            }
+
 
         }else {
             logger.warn("加锁失败");
         }
+
+
+//        logger.info("线程"+Thread.currentThread().getName()+"尝试加锁。。。");
+//
+//            logger.info(Thread.currentThread().getName()+"加锁成功，修改redis的i...");
+//            int i=(int)redisUtil.get("i");
+//            int i2 = i-1;
+//            redisUtil.set("i",i2);
+//            logger.info("修改成功,剩余:"+redisUtil.get("i"));
+//            redisUtil.del("s");
 
 
     }

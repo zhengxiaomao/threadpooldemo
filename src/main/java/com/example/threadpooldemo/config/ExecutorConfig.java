@@ -44,7 +44,7 @@ public class ExecutorConfig {
 
         //配置线程池中的线程的名称前缀
 
-        executor.setThreadNamePrefix("async-service-");
+        executor.setThreadNamePrefix("hahew-");
 
         // rejection-policy：当pool已经达到max size的时候，如何处理新任务
 

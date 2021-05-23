@@ -104,6 +104,17 @@ public class RedisUtil {
         }
     }
 
+
+    public boolean del(String key) {
+        try {
+            redisTemplate.delete(key);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public Boolean lock(String lockKey, long lockExpireMils) {
         return (Boolean) redisTemplate.execute((RedisCallback) connection -> {
             long nowTime = System.currentTimeMillis();
